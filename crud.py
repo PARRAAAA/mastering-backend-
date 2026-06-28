@@ -1,3 +1,4 @@
+from decimal import Decimal
 from sqlalchemy.orm import Session
 from models import Account, Transaction
 
@@ -15,14 +16,14 @@ def create_transaction(
         description=description,
         category=category,
     )
-    account.balance += amount
+    account.balance += Decimal(str(amount))
 
     try:
         db.add(transaction)
-        db.refresh(transaction)
         db.commit()
+        db.refresh(transaction)
     except Exception:
-        db.rollback
+        db.rollback()
         raise
 
     return transaction
