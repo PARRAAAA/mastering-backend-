@@ -27,3 +27,11 @@ def create_transaction(
         raise
 
     return transaction
+
+def create_account(db: Session, name:str) → Account:
+    account = Account(name=name)
+    db.add(account)
+    db.commit()
+    db.refresh(account)
+    return account 
+    
